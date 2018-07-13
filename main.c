@@ -29,7 +29,7 @@ void trace_liste(cairo_t *cr, point pts[], int size)
       cairo_move_to(cr, pts[i].x, pts[i].y);
       cairo_set_source_rgb(cr, i*(1./size), 0, 1.-(i*(1./size)));
       if (!(i%1000))
-	printf("%dème itération\n", i);
+	printf("%dème itération\n", i);   // To monitor the progress on big generations
     }
 }
 
@@ -222,6 +222,5 @@ int main(int argc, char* argv[])
   cairo_surface_destroy(surface);
   cairo_destroy(cr);
 
-  printf("It all went fine\n");
   return 0;
 }
