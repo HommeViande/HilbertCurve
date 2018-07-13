@@ -206,17 +206,23 @@ int main(int argc, char* argv[])
   // Setting up cairo stuff
   cairo_surface_t *surface;
   cairo_t *cr;
-
-  surface = cairo_pdf_surface_create("essai.pdf", 1500, 1500);
+  int depth;
+  
+  surface = cairo_pdf_surface_create("Curve.pdf", 1500, 1500);
   cr = cairo_create(surface);
 
   cairo_set_source_rgb(cr, 0, 0, 1.0);
   cairo_set_line_width(cr, 3);
 
-
-  // Hilbert ftw
-  point origine = {0,0};
-  hilbert(cr, getintarg(argc, argv, 1), 1500, origine);
+  if (argc >= 2)
+    depth = getintarg(argc, argv, 1);
+  else
+    depth=4; // Setting default value
+      
+      // Hilbert ftw
+      point origine = {0,0};
+      hilbert(cr, depth, 1500, origine);
+  
   
   // Closes files properly and all
   cairo_surface_destroy(surface);

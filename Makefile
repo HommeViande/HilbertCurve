@@ -1,4 +1,4 @@
-essai.pdf: main
+Curve.pdf: main
 	./main 3
 
 main: main.c
