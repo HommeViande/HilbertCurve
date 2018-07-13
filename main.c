@@ -6,7 +6,7 @@
 
 
 // Compile using :
-// gcc main.c -o main $(pkg-config --cflags --libs cairo); ./main ; evince essai.pdf&
+// gcc main.c -o main $(pkg-config --cflags --libs cairo); ./main 4 ; evince essai.pdf&
 
 
 typedef struct {float x; float y;} point;
@@ -181,9 +181,27 @@ void hilbert_aux(point pts[], int n, float size, point origine)
 }
 
 
+// Only works for a positive integer
+// Totally needs improving
+
+int getintarg(int argc, char* argv[], int argpos)
+{
+  int result = 0, i = 0, size = 0;
+  char* arg = argv[argpos];
+  while (arg[i] != '\0')
+    i++;
+  size = i;
+  while (i > 0)
+    {
+      result += power(10, size-i) * (arg[i-1] - 48);
+      i--;
+    }
+  return result;
+}
 
 
-int main(int argc, char* args[])
+
+int main(int argc, char* argv[])
 {
   // Setting up cairo stuff
   cairo_surface_t *surface;
@@ -198,7 +216,7 @@ int main(int argc, char* args[])
 
   // Hilbert ftw
   point origine = {0,0};
-  hilbert(cr, 5, 1500, origine);
+  hilbert(cr, getintarg(argc, argv, 1), 1500, origine);
   
   // Closes files properly and all
   cairo_surface_destroy(surface);
