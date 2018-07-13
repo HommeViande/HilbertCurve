@@ -219,9 +219,9 @@ int main(int argc, char* argv[])
   else
     depth=4; // Setting default value
       
-      // Hilbert ftw
-      point origine = {0,0};
-      hilbert(cr, depth, 1500, origine);
+  // Hilbert ftw
+  point origine = {0,0};
+  hilbert(cr, depth, 1500, origine);
   
   
   // Closes files properly and all
