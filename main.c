@@ -5,6 +5,8 @@
 #include <math.h>
 
 
+#define DEFAULT_DEPTH 4
+
 // Compile using :
 // gcc main.c -o main $(pkg-config --cflags --libs cairo); ./main 4 ; evince essai.pdf&
 
@@ -186,7 +188,7 @@ void hilbert_aux(point pts[], int n, float size, point origine)
 
 int getintarg(int argc, char* argv[], int argpos)
 {
-  int result = 0, i = 0, size = 0;
+  int result = 0, i = 0, size = 0, error=0;
   char* arg = argv[argpos];
   while (arg[i] != '\0')
     i++;
@@ -194,9 +196,10 @@ int getintarg(int argc, char* argv[], int argpos)
   while (i > 0)
     {
       result += power(10, size-i) * (arg[i-1] - 48);
+      error += (arg[i-1] < 48 || arg[i-1] > 57);
       i--;
     }
-  return result;
+  return error ? -1 : result;
 }
 
 
@@ -217,8 +220,17 @@ int main(int argc, char* argv[])
   if (argc >= 2)
     depth = getintarg(argc, argv, 1);
   else
-    depth=4; // Setting default value
-      
+    {
+      depth=DEFAULT_DEPTH; // Setting default value
+      printf("Default depth set to %d\n", depth);
+    }
+
+  if (depth < 0)
+    {
+      printf("usage: ./main [n]\n\nWhere [n] is the depth of recursivity of the curve you want to generate.\n");
+      printf("%s is not a valid integer\n", argv[1]);
+      return 1;
+    }
   // Hilbert ftw
   point origine = {0,0};
   hilbert(cr, depth, 1500, origine);
